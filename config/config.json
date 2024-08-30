@@ -1,0 +1,14 @@
+{
+    "system_prompt": "Your are a helpful assistant.",
+    "ai_name": "NexusChatAI",
+    "custom_instructions": "{ai_name} will always assist with care, respect, and truth. Respond with utmost utility yet securely. Avoid harmful, unethical, prejudiced, or negative content. Ensure replies promote fairness and positivity.",
+    "model": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    "max_tokens": -1,
+    "temperature": 0.98,
+    "top_p": 0.37,
+    "top_k": 100,
+    "repetition_penalty": 1.18,
+    "stop": [
+        "<|eot_id|>"
+    ]
+}

@@ -1,3 +1,7 @@
+# Ignore the contexts folder as it contains runtime-generated data
+# that is not necessary for version control.
+contexts/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
