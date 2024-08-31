@@ -16,7 +16,16 @@ together_ai = TogetherAI(api_key=os.getenv("TOGETHER_API_KEY"))
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+
+class MyBot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix="!", intents=intents)
+
+    async def setup_hook(self):
+        await self.tree.sync()
+
+
+bot = MyBot()
 
 # load configuration settings
 with open('config/config.json', 'r') as config_file:
@@ -26,11 +35,16 @@ with open('config/config.json', 'r') as config_file:
 @bot.event
 async def on_ready():
     print(f"{bot.user} has conneected to Discord!")
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
 
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+@bot.tree.command(name="ping", description="Check if the bot is responsive")
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message("Pong!")
 
 
 @bot.event
@@ -67,8 +81,6 @@ async def on_message(message):
         context.append({"user": user_display_name, "message": user_message})
         context.append({"user": "T@ai_name@T", "message": ai_response})
         context_manager.save_context(channel_id, context)
-
-    await bot.process_commands(message)
 
 token = os.getenv("DISCORD_TOKEN")
 
